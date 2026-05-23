@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تنبيه أمني</title>
+
+<style>
+
+    body {
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: black;
+        color: white;
+        text-align: center;
+    }
+
+    .container {
+        padding: 20px;
+        width: 90%;
+    }
+
+    h1 {
+        font-size: clamp(2rem, 8vw, 3rem);
+        color: red;
+        animation: blink 0.5s infinite;
+    }
+
+    .countdown {
+        font-size: clamp(4rem, 18vw, 6rem);
+        margin-top: 20px;
+        color: white;
+    }
+
+    @keyframes blink {
+        50% {
+            opacity: 0;
+        }
+    }
+
+    /* شاشة عيد الميلاد */
+
+    .gift-screen {
+        display: none;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        background: linear-gradient(
+            135deg,
+            #ff4d6d,
+            #ff758f,
+            #ffb3c1,
+            #ffd6e0,
+            #ffc8dd
+        );
+
+        animation: fadeIn 2s ease;
+    }
+
+    .gift {
+        font-size: clamp(5rem, 20vw, 9rem);
+        animation: bounce 1s infinite;
+        filter: drop-shadow(0 0 15px white);
+    }
+
+    .message {
+        margin-top: 15px;
+        font-size: clamp(1.1rem, 4vw, 2rem);
+        color: white;
+        width: 85%;
+        line-height: 2;
+        padding: 20px;
+        font-weight: bold;
+        text-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .hearts {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    .heart {
+        position: absolute;
+        color: white;
+        animation: floatUp linear infinite;
+        opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+
+        from {
+            transform: translateY(100vh);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(-10vh);
+            opacity: 1;
+        }
+    }
+
+    @keyframes bounce {
+
+        0%,100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    @keyframes fadeIn {
+
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+    }
+
+</style>
+</head>
+
+<body>
+
+<!-- شاشة المقلب -->
+
+<div class="container" id="prank">
+
+    <h1>⚠️ جاري اختراق الهاتف ⚠️</h1>
+
+    <p>سيتم اختراق هاتفك خلال...</p>
+
+    <div class="countdown" id="count">3</div>
+
+</div>
+
+
+<!-- شاشة المعايدة -->
+
+<div class="gift-screen" id="giftScreen">
+
+    <div class="hearts" id="hearts"></div>
+
+    <div class="gift">🎁</div>
+
+    <div class="message">
+
+        🎉 عيد ميلاد سعيد عفوفة 🎉
+        <br>
+
+        إلى ألطف وأحنّ وأجمل أم ❤️
+        <br>
+
+        شكرًا على كل الحب والحنان
+        والسعادة التي تمنحينها لكل من حولك كل يوم.
+        <br>
+
+        أتمنى لكِ حياة مليئة بالفرح،
+        والصحة، والراحة، والابتسامات الجميلة.
+        <br>
+
+        أنتِ تستحقين كل السعادة في العالم 💖
+
+    </div>
+
+</div>
+
+<canvas id="confetti"></canvas>
+
+<script>
+
+    // =========================
+    // العد التنازلي
+    // =========================
+
+    let count = 3;
+
+    const counter = document.getElementById("count");
+
+    const interval = setInterval(() => {
+
+        count--;
+
+        counter.textContent = count;
+
+        if (count <= 0) {
+
+            clearInterval(interval);
+
+            document.getElementById("prank").style.display = "none";
+
+            document.getElementById("giftScreen").style.display = "flex";
+
+            createHearts();
+
+            startConfetti();
+
+        }
+
+    }, 1000);
+
+
+    // =========================
+    // القلوب المتحركة
+    // =========================
+
+    function createHearts() {
+
+        const heartsContainer =
+            document.getElementById("hearts");
+
+        for (let i = 0; i < 30; i++) {
+
+            const heart =
+                document.createElement("div");
+
+            heart.classList.add("heart");
+
+            heart.innerHTML = "💖";
+
+            heart.style.left =
+                Math.random() * 100 + "vw";
+
+            heart.style.animationDuration =
+                (Math.random() * 5 + 5) + "s";
+
+            heart.style.fontSize =
+                (Math.random() * 25 + 20) + "px";
+
+            heart.style.opacity =
+                Math.random();
+
+            heartsContainer.appendChild(heart);
+        }
+    }
+
+
+    // =========================
+    // الكونفيتي
+    // =========================
+
+    const canvas =
+        document.getElementById("confetti");
+
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+
+    canvas.height = window.innerHeight;
+
+    const pieces = [];
+
+    const colors = [
+        "#ff0a54",
+        "#ff477e",
+        "#ff7096",
+        "#ff85a1",
+        "#fbb1bd",
+        "#ffe5ec",
+        "#ffffff"
+    ];
+
+    for (let i = 0; i < 200; i++) {
+
+        pieces.push({
+
+            x: Math.random() * canvas.width,
+
+            y: Math.random() * canvas.height,
+
+            r: Math.random() * 6 + 2,
+
+            d: Math.random() * 150,
+
+            color:
+                colors[
+                    Math.floor(
+                        Math.random() * colors.length
+                    )
+                ]
+        });
+    }
+
+    function drawConfetti() {
+
+        ctx.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        pieces.forEach(p => {
+
+            ctx.beginPath();
+
+            ctx.fillStyle = p.color;
+
+            ctx.arc(
+                p.x,
+                p.y,
+                p.r,
+                0,
+                Math.PI * 2,
+                true
+            );
+
+            ctx.fill();
+
+        });
+
+        updateConfetti();
+    }
+
+    function updateConfetti() {
+
+        pieces.forEach(p => {
+
+            p.y += Math.cos(p.d) + 2;
+
+            p.x += Math.sin(p.d);
+
+            if (p.y > canvas.height) {
+
+                p.y = -10;
+            }
+        });
+    }
+
+    function startConfetti() {
+
+        setInterval(drawConfetti, 20);
+    }
+
+</script>
+
+</body>
+</html>
