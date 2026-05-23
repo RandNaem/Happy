@@ -171,18 +171,18 @@
     <div class="message">
 
         🎉 عيد ميلاد سعيد عفوفة 🎉
-        <br>
+        <br><br>
 
         إلى ألطف وأحنّ وأجمل أم ❤️
-        <br>
+        <br><br>
 
         شكرًا على كل الحب والحنان
         والسعادة التي تمنحينها لكل من حولك كل يوم.
-        <br>
+        <br><br>
 
         أتمنى لكِ حياة مليئة بالفرح،
         والصحة، والراحة، والابتسامات الجميلة.
-        <br>
+        <br><br>
 
         أنتِ تستحقين كل السعادة في العالم 💖
 
@@ -194,9 +194,7 @@
 
 <script>
 
-    // =========================
     // العد التنازلي
-    // =========================
 
     let count = 2;
 
@@ -225,9 +223,7 @@
     }, 1000);
 
 
-    // =========================
     // القلوب المتحركة
-    // =========================
 
     function createHearts() {
 
@@ -260,9 +256,7 @@
     }
 
 
-    // =========================
     // الكونفيتي
-    // =========================
 
     const canvas =
         document.getElementById("confetti");
@@ -308,12 +302,7 @@
 
     function drawConfetti() {
 
-        ctx.clearRect(
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         pieces.forEach(p => {
 
@@ -321,14 +310,7 @@
 
             ctx.fillStyle = p.color;
 
-            ctx.arc(
-                p.x,
-                p.y,
-                p.r,
-                0,
-                Math.PI * 2,
-                true
-            );
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
 
             ctx.fill();
 
@@ -353,7 +335,6 @@
     }
 
     function startConfetti() {
-
         setInterval(drawConfetti, 20);
     }
 
